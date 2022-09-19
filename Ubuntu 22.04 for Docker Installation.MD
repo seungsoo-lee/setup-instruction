@@ -13,3 +13,10 @@ $ sudo apt autoremove --yes
 $ sudo apt autoclean --yes
 $ reboot
 ```
+----------------------------------------------------------------------------------------------------
+
+## Install Development Tools
+
+ - `$ sudo apt install build-essential pkg-config cmake cmake-qt-gui ninja-build valgrind`
+
+----------------------------------------------------------------------------------------------------
