@@ -17,6 +17,6 @@ $ reboot
 
 ## Install Development Tools
 
- - `$ sudo apt install build-essential pkg-config cmake cmake-qt-gui ninja-build valgrind`
+ - `$ sudo apt install build-essential pkg-config cmake`
 
 ----------------------------------------------------------------------------------------------------
