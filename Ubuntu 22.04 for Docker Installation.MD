@@ -15,7 +15,7 @@ $ reboot
 ```
 ----------------------------------------------------------------------------------------------------
 
-## Install Docker
+## Install Docker (v20.10)
 
 ```sh
 $ sudo apt install apt-transport-https ca-certificates curl software-properties-common
@@ -61,11 +61,11 @@ $ sudo chmod 666 /var/run/docker.sock # bypass to run docker command
 ```
 ----------------------------------------------------------------------------------------------------
 
-## Install docker-compose
+## Install docker-compose (v2.11.0)
 
 ```sh
 $ mkdir -p ~/.docker/cli-plugins/
-$ curl -SL https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
+$ curl -SL https://github.com/docker/compose/releases/download/v2.11.0/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
 $ chmod +x ~/.docker/cli-plugins/docker-compose
 $ docker compose version
 ```
