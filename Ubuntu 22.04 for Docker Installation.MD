@@ -26,3 +26,14 @@ $ apt-cache policy docker-ce
 $ sudo apt install docker-ce
 ```
 ----------------------------------------------------------------------------------------------------
+
+## Execute the Docker Command without sudo (optional)
+
+```sh
+$ sudo usermod -aG docker ${USER}
+$ su - ${USER}
+$ groups
+$ sudo usermod -aG docker username
+```
+----------------------------------------------------------------------------------------------------
+
