@@ -50,49 +50,34 @@ $ sudo systemctl restart systemd-sysctl
 ----------------------------------------------------------------------------------------------------
 ## Initialize Kubernetes (Master Node)
 ```sh
-# set default
-if [ "$CNI" == "" ]; then
-    CNI=cilium
-fi
-
 # use docker as default CRI
-if [ "$CRI_SOCKET" == "" ]; then
-    # if docker, let kubeadm figure it out
-    if [ -S /var/run/docker.sock ]; then
-        CRI_SOCKET=""
-    elif [ -S /var/run/containerd/containerd.sock ]; then
-        CRI_SOCKET=unix:///var/run/containerd/containerd.sock
-    elif [ -S /var/run/crio/crio.sock ]; then
-        CRI_SOCKET=unix:///var/run/crio/crio.sock
-    fi
-fi
+$ CRI_SOCKET=""
 
 # reload env
-. ~/.bashrc
+$ . ~/.bashrc
 
 # turn off swap
-sudo swapoff -a
+$ sudo swapoff -a
 
 # activate br_netfilter
-sudo modprobe br_netfilter
-sudo bash -c "echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables"
-sudo bash -c "echo 'net.bridge.bridge-nf-call-iptables=1' >> /etc/sysctl.conf"
+$ sudo modprobe br_netfilter
+$ sudo bash -c "echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables"
+$ sudo bash -c "echo 'net.bridge.bridge-nf-call-iptables=1' >> /etc/sysctl.conf"
 
 # initialize the master node
-sudo kubeadm init --cri-socket=$CRI_SOCKET --pod-network-cidr=10.244.0.0/16 | tee -a ~/k8s_init.log
+$ sudo kubeadm init --cri-socket=$CRI_SOCKET --pod-network-cidr=10.244.0.0/16 | tee -a ~/k8s_init.log
 
 # make kubectl work for non-root user
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $USER:$USER $HOME/.kube/config
-export KUBECONFIG=$HOME/.kube/config
-echo "export KUBECONFIG=$HOME/.kube/config" | tee -a ~/.bashrc
+$ mkdir -p $HOME/.kube
+$ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+$ sudo chown $USER:$USER $HOME/.kube/config
+$ export KUBECONFIG=$HOME/.kube/config
+$ echo "export KUBECONFIG=$HOME/.kube/config" | tee -a ~/.bashrc
 
 # install a pod network (cilium)
-curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/latest/download/cilium-linux-amd64.tar.gz{,.sha256sum}
-sha256sum --check cilium-linux-amd64.tar.gz.sha256sum
-sudo tar xzvfC cilium-linux-amd64.tar.gz /usr/local/bin
-rm cilium-linux-amd64.tar.gz{,.sha256sum}
-/usr/local/bin/cilium install
-
+$ curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/latest/download/cilium-linux-amd64.tar.gz{,.sha256sum}
+$ sha256sum --check cilium-linux-amd64.tar.gz.sha256sum
+$ sudo tar xzvfC cilium-linux-amd64.tar.gz /usr/local/bin
+$ rm cilium-linux-amd64.tar.gz{,.sha256sum}
+$ /usr/local/bin/cilium install
 ```
