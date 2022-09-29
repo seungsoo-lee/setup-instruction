@@ -1,6 +1,3 @@
-# setup
-setup scripts
-
 ## Update Ubuntu
 
 ```sh
