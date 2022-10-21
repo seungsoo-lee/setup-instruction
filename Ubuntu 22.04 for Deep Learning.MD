@@ -142,7 +142,7 @@ Try `$ sudo ubuntu-drivers autoinstall` if NVIDIA drivers are disabled.
 1. Install prerequisites:
 	- `$ sudo apt install linux-headers-$(uname -r)`
 2. Download CUDA 11.2 (https://developer.nvidia.com/cuda-toolkit-archive)
-2. Install CUDA 11.2: `$ ./cuda_11.2.2_460.32.03_linux.run --override` (without Driver)
+2. Install CUDA 11.2: `$ sudo sh sudo ./cuda_11.2.2_460.32.03_linux.run --override` (without Driver)
 3. Set up the development environment by modifying the `PATH` and `LD_LIBRARY_PATH` variables (Add following lines to `~/.bashrc`):
 	- `export PATH=$PATH:/usr/local/cuda-11.2/bin`
 	- `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-11.2/lib64:/usr/local/cuda-11.2/extras/CUPTI/lib64`
