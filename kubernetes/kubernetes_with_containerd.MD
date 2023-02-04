@@ -1,6 +1,24 @@
-# Ubuntu 22.04 for Kubernetes Installation
+## Set hostname and add entries in the hosts file
 
-This gist contains steps to setup `Ubuntu 22.04` for kubernetes installation.
+On the master node, run
+```
+$ sudo hostnamectl set-hostname "master"
+$ exec bash
+```
+
+On the worker nodes, run
+```
+$ sudo hostnamectl set-hostname "worker1"   // 1st worker node
+$ sudo hostnamectl set-hostname "worker2"   // 2nd worker node
+$ exec bash
+```
+
+Add the following entries in ```/etc/hosts``` file on each node
+```
+192.168.1.173   k8smaster.example.net k8smaster
+192.168.1.174   k8sworker1.example.net k8sworker1
+192.168.1.175   k8sworker2.example.net k8sworker2
+```
 
 ----------------------------------------------------------------------------------------------------
 ## Disable the swap partition
