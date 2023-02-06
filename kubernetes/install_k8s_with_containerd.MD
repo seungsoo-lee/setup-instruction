@@ -112,4 +112,12 @@ $ sudo kubeadm join k8smaster.example.net:6443 --token vt4ua6.wcma2y8pl4menxh2 \
 ```
 - As we can see nodes status is ‘NotReady’, so to make it active. We must install CNI (Container Network Interface) or network add-on plugins like Calico, Flannel and Weave-net.
 
+## Delete Kubernetes
+```
+sudo kubeadm reset
+kubectl config delete-context kubernetes-admin@kubernetes
+sudo rm -rf $HOME/.kube
+sudo rm $HOME/k8s_init.log
+```
+### References
 - https://computingforgeeks.com/install-kubernetes-cluster-ubuntu-jammy/
