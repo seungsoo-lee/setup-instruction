@@ -149,3 +149,9 @@ $ su -
 # packstack --answer-file=packstack.cfg
 ```
 <img src="./images/image4.png" width="70%" height="70%"></img>
+
+### References
+- https://www.rdoproject.org/install/packstack/
+- https://ssup2.github.io/theory_analysis/OpenStack_Network_Neutron/
+- https://it-hangil.tistory.com/34
+- https://yoonsu.tistory.com/3
