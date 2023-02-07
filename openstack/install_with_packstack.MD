@@ -144,10 +144,27 @@ $ su -
 # ssh-copy-id root@compute1 [and ip]
 # ssh-copy-id root@compute2 [and ip]
 ```
-- Install network-scripts and openvswitch
+- Generate packstack configuration file and edit it
 ```
-# dnf install -y openstack-packstack
 # packstack --gen-answer-file=packstack.cfg (then, configure the file)
+```
+```
+  91 CONFIG_CONTROLLER_HOST=172.17.0.110
+
+  94 CONFIG_COMPUTE_HOSTS=172.17.0.111,172.17.0.112
+
+  98 CONFIG_NETWORK_HOSTS=172.17.0.110,172.17.0.111,172.17.0.112
+  
+  313 CONFIG_KEYSTONE_ADMIN_EMAIL=xxx@gmail.com
+  
+  750 CONFIG_NEUTRON_ML2_TYPE_DRIVERS=flat,vxlan
+  
+  756 CONFIG_NEUTRON_ML2_TENANT_NETWORK_TYPES=vxlan
+  
+  899 CONFIG_NEUTRON_OVN_TUNNEL_IF=eth1
+  
+  1137 CONFIG_PROVISION_DEMO=n
+  
 ```
 - Install OpenStack
 ```
