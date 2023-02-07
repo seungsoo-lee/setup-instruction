@@ -123,6 +123,9 @@ sudo systemctl disable NetworkManager
 sudo systemctl stop NetworkManager
 sudo systemctl enable network
 sudo sysctl -w net.ipv4.ip_forward=1
+sudo echo 1 > /proc/sys/net/ipv4/ip_forward
+sudo vi /etc/sysctl.conf
+net.ipv4.ip_forward=1
 ```
 - Change ifname to ethX
 ```
