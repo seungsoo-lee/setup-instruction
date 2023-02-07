@@ -149,6 +149,8 @@ $ su -
 # packstack --gen-answer-file=packstack.cfg (then, configure the file)
 ```
 ```
+  76 CONFIG_NTP_SERVERS=time.bora.net
+  
   91 CONFIG_CONTROLLER_HOST=172.17.0.110
 
   94 CONFIG_COMPUTE_HOSTS=172.17.0.111,172.17.0.112
@@ -157,9 +159,13 @@ $ su -
   
   313 CONFIG_KEYSTONE_ADMIN_EMAIL=xxx@gmail.com
   
+  494 CONFIG_CINDER_DB_PURGE_ENABLE=y
+   
   750 CONFIG_NEUTRON_ML2_TYPE_DRIVERS=flat,vxlan
   
   756 CONFIG_NEUTRON_ML2_TENANT_NETWORK_TYPES=vxlan
+
+  824 CONFIG_NEUTRON_OVS_BRIDGE_IFACES=br-ex:eth0
   
   899 CONFIG_NEUTRON_OVN_TUNNEL_IF=eth1
   
