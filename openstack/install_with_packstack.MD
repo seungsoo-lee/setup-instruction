@@ -69,6 +69,7 @@ sudo dnf update -y
 sudo dnf config-manager --enable crb
 sudo dnf install -y centos-release-openstack-zed
 sudo dnf update -y
+sudo dnf install -y openstack-packstack
 ```
 ## Disable the selinux
 ```
