@@ -178,6 +178,13 @@ $ su -
 ```
 <img src="./images/image4.png" width="70%" height="70%"></img>
 
+# get cirros image
+
+```
+curl -L http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img | glance \
+         image-create --name='cirros image' --visibility=public --container-format=bare --disk-format=qcow2
+```
+
 ### References
 - https://www.rdoproject.org/install/packstack/
 - https://ssup2.github.io/theory_analysis/OpenStack_Network_Neutron/
