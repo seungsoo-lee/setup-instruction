@@ -1,5 +1,6 @@
 ## Preparation
 - 3 vm machines, which are based on VMware ESXi (They can be replaced by physical machines)
+- If you use VMware ESXi, accept the Promiscuous mode from the vSwitchX
 
 > - first vm machine -> controller node + network node
 > - second vm machine -> compute node + network node
