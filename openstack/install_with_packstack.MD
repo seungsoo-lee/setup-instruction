@@ -146,8 +146,9 @@ $ su -
 ```
 - Generate packstack configuration file and edit it
 ```
-# packstack --gen-answer-file=packstack.cfg (then, configure the file)
+# packstack --gen-answer-file=packstack.cfg 
 ```
+- Configure the answer file
 ```
   76 CONFIG_NTP_SERVERS=time.bora.net
   
