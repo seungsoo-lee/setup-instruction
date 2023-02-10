@@ -140,6 +140,9 @@ sudo reboot
 - set ```/etc/hosts```
 ```
 # vi /etc/hosts
+172.17.0.113 controller
+172.17.0.114 compute
+172.17.0.115 network
 ```
 
 ```
