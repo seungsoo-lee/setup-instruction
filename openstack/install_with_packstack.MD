@@ -21,13 +21,6 @@ swap      16 GiB
 /var        (most) // openstack vm instacnes here
 ```
 
-## Change the hostname - controller, compute1, compute2, ...
-```
-$ sudo vi /etc/hostname
-$ sudo vi /etc/hosts 
-$ sudo reboot
-```
-
 ## Enable root login over SSH
 ```
 $ sudo vi /etc/ssh/sshd_config
@@ -137,7 +130,18 @@ sudo grub2-mkconfig  -o /boot/grub2/grub.cfg
 sudo reboot
 ```
 
+## Change the hostname - controller, compute1, compute2, ...
+```
+# hostnamectl set-hostname
+```
+
 ## Enable ssh login without entering password (From now on, it should be executed on the controller node only)
+
+- set /etc/hosts
+```
+# vi /etc/hosts
+```
+
 ```
 $ su -
 # ssh-keygen
