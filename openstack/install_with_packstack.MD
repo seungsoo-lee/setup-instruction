@@ -132,12 +132,12 @@ sudo reboot
 
 ## Change the hostname - controller, compute1, compute2, ...
 ```
-# hostnamectl set-hostname
+# hostnamectl set-hostname controller
 ```
 
 ## Enable ssh login without entering password (From now on, it should be executed on the controller node only)
 
-- set /etc/hosts
+- set ```/etc/hosts```
 ```
 # vi /etc/hosts
 ```
