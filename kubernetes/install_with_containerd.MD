@@ -22,6 +22,7 @@ $ exec bash
 - Execute beneath swapoff and sed command to disable swap. Make sure to run the following commands on all the nodes.
 ```
 $ sudo swapoff -a
+$ sudo sed -i '/swap.img/s/^/#/' /etc/fstab # (Ubuntu 22.04)
 $ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 ```
 - Load the following kernel modules on all the nodes,
