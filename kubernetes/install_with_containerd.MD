@@ -92,8 +92,11 @@ $ sudo apt-mark hold kubelet kubeadm kubectl
 ## [Master Node] Initialize Kubernetes cluster with Kubeadm command
 - Now, we are all set to initialize Kubernetes cluster. Run the following Kubeadm command from the master node only.
 ```
-$ sudo kubeadm init --control-plane-endpoint=master
+$ sudo kubeadm init --control-plane-endpoint=master --pod-network-cidr=192.168.0.0/16
 ```
+Calio: ```--pod-network-cidr=192.168.0.0/16```
+Flannel: ```--pod-network-cidr=10.244.0.0/16```
+Cilium: ``` don't care```
 - So, to start interacting with cluster, run following commands from the master node,
 ```
 $ mkdir -p $HOME/.kube
