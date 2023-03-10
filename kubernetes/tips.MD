@@ -6,5 +6,5 @@ $ kubectl config view -o jsonpath='{"Cluster name\tServer\n"}{range .clusters[*]
 ```
 $ kubectl describe node master | grep Taints
 Taints:             node-role.kubernetes.io/control-plane:NoSchedule
-$ kubectl taint nodes {master node name} node-role.kubernetes.io/control-plane-
+$ kubectl taint nodes master node-role.kubernetes.io/control-plane-
 ```
