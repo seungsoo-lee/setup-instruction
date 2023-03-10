@@ -4,5 +4,7 @@ $ kubectl config view -o jsonpath='{"Cluster name\tServer\n"}{range .clusters[*]
 ```
 - Enable master node to run pods
 ```
-$ kubectl taint nodes {master node name} node-role.kubernetes.io/master-
+$ kubectl describe node master | grep Taints
+Taints:             node-role.kubernetes.io/control-plane:NoSchedule
+$ kubectl taint nodes {master node name} node-role.kubernetes.io/control-plane-
 ```
