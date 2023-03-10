@@ -53,6 +53,7 @@ $ curl -L --remote-name-all https://github.com/cilium/hubble/releases/download/$
 $ sha256sum --check hubble-linux-amd64.tar.gz.sha256sum
 $ sudo tar xzvfC hubble-linux-amd64.tar.gz /usr/local/bin
 $ rm hubble-linux-amd64.tar.gz{,.sha256sum}
+$ cilium hubble enable
 ```
 
 - https://docs.cilium.io/en/v1.12/gettingstarted/k8s-install-default/#install-cilium
