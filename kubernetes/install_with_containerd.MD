@@ -88,6 +88,15 @@ $ sudo apt update
 $ sudo apt install -y kubelet kubeadm kubectl
 $ sudo apt-mark hold kubelet kubeadm kubectl
 ```
+- Install specific version
+```
+$ apt-cache madison kubectl | grep 1.16
+   kubectl | 1.16.15-00 | https://apt.kubernetes.io kubernetes-xenial/main amd64 Packages
+   kubectl | 1.16.14-00 | https://apt.kubernetes.io kubernetes-xenial/main amd64 Packages
+   kubectl | 1.16.13-00 | https://apt.kubernetes.io kubernetes-xenial/main amd64 Packages
+   ...
+$ sudo apt install -y kubelet=1.16.15-00 kubeadm=1.16.15-00 kubectl=1.16.15-00
+```
 
 ## [Master Node] Initialize Kubernetes cluster with Kubeadm command
 - Now, we are all set to initialize Kubernetes cluster. Run the following Kubeadm command from the master node only.
