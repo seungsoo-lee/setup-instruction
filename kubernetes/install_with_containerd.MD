@@ -89,12 +89,12 @@ $ sudo apt-mark hold kubelet kubeadm kubectl
 ```
 - Install specific version
 ```
-$ apt-cache madison kubectl | grep 1.16
-   kubectl | 1.16.15-00 | https://apt.kubernetes.io kubernetes-xenial/main amd64 Packages
-   kubectl | 1.16.14-00 | https://apt.kubernetes.io kubernetes-xenial/main amd64 Packages
-   kubectl | 1.16.13-00 | https://apt.kubernetes.io kubernetes-xenial/main amd64 Packages
+$ apt-cache madison kubectl | grep 1.25
+   kubectl |  1.25.9-00 | http://apt.kubernetes.io kubernetes-xenial/main amd64 Packages
+   kubectl |  1.25.8-00 | http://apt.kubernetes.io kubernetes-xenial/main amd64 Packages
+   kubectl |  1.25.7-00 | http://apt.kubernetes.io kubernetes-xenial/main amd64 Packages
    ...
-$ sudo apt install -y kubelet=1.16.15-00 kubeadm=1.16.15-00 kubectl=1.16.15-00
+$ sudo apt install -y kubelet=1.25.9-00 kubeadm=1.25.9-00 kubectl=1.25.9-00
 ```
 
 ## [Master Node] Initialize Kubernetes cluster with Kubeadm command
