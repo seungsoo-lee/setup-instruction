@@ -3,13 +3,13 @@
 - On the master node, run
 ```sh
 $ sudo hostnamectl set-hostname "master"
-$ exec bash
+$ bash
 ```
 - On the worker nodes, run
 ```
 $ sudo hostnamectl set-hostname "worker1"   // 1st worker node
 $ sudo hostnamectl set-hostname "worker2"   // 2nd worker node
-$ exec bash
+$ bash
 ```
 - Add the following entries in ```/etc/hosts``` file on each node
 ```
