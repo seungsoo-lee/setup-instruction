@@ -192,6 +192,12 @@ $ su -
   
   1137 CONFIG_PROVISION_DEMO=n
 ```
+
+- Reboot 
+```
+# reboot
+```
+
 - Install OpenStack
 ```
 # packstack --answer-file=packstack.cfg
