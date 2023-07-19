@@ -153,7 +153,9 @@ GRUB_CMDLINE_LINUX="crashkernel=auto resume=/dev/mapper/cl-swap rd.lvm.lv=cl/roo
 sudo grub2-mkconfig  -o /boot/grub2/grub.cfg
 ```
 
+* mapping interface to mac addr
 ```
+vi /etc/udev/rules.d/70-persistent-ipoib.rules
 SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?", ATTR{address}=="bc:5f:f4:93:d6:ed", ATTR{type}=="1", KERNEL=="eth", NAME="eth0" SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?", ATTR{address}=="1c:fd:08:72:52:00", ATTR{type}=="1", KERNEL=="eth", NAME="eth0"
 ```
 
