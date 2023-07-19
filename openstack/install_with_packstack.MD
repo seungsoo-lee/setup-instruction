@@ -89,6 +89,7 @@ sudo systemctl stop NetworkManager
 sudo systemctl enable network
 ```
 
+(External)
 - Make ```/etc/sysconfig/network-scripts/ifcfg-br-ex``` resemble:
 ```
 DEVICE=br-ex
@@ -111,20 +112,21 @@ OVS_BRIDGE=br-ex
 ONBOOT=yes
 ```
 
+(Optional - VPN)
 - Make ```/etc/sysconfig/network-scripts/ifcfg-br-vpn``` resemble:
 ```
-DEVICE=br-ex
+DEVICE=br-vpn
 DEVICETYPE=ovs
 TYPE=OVSBridge
 BOOTPROTO=static
 IPADDR=[External ip]
 NETMASK=[External netmask]
-GATEWAY=[External gw]
-DNS1=168.126.63.1
+#GATEWAY=[External gw]
+#DNS1=168.126.63.1
 ONBOOT=yes
 ```
 
-- Make ```/etc/sysconfig/network-scripts/ifcfg-[external vpn]``` resemble (no BOOTPROTO!):
+- Make ```/etc/sysconfig/network-scripts/ifcfg-[external if]``` resemble (no BOOTPROTO!):
 ```
 DEVICE=[external if]
 TYPE=OVSPort
@@ -133,11 +135,12 @@ OVS_BRIDGE=br-ex
 ONBOOT=yes
 ```
 
+(Internal)
 - Make ```/etc/sysconfig/network-scripts/ifcfg-[internal if]```
 ```
 DEVICE=[internal if]
 BOOTPROTO=static
-IPADDR=10.0.0.110
+IPADDR=[internal ip] # 10.0.0.41
 NETMASK=255.255.255.0
 ONBOOT=yes
 ```
