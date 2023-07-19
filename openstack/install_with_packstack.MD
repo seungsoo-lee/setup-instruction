@@ -77,20 +77,16 @@ sudo dnf install -y openstack-packstack
 ## Install network-relevant things
 ```
 sudo dnf install network-scripts -y
+sudo dnf install -y openvswitch
 ```
 
-- Run the following network commands
+- Run the following commands
 ```
 sudo systemctl disable firewalld
 sudo systemctl stop firewalld
 sudo systemctl disable NetworkManager
 sudo systemctl stop NetworkManager
 sudo systemctl enable network
-sudo dnf install -y openvswitch
-sudo sysctl -w net.ipv4.ip_forward=1
-sudo echo 1 > /proc/sys/net/ipv4/ip_forward
-sudo vi /etc/sysctl.conf
-net.ipv4.ip_forward=1
 ```
 
 - Make ```/etc/sysconfig/network-scripts/ifcfg-br-ex``` resemble:
@@ -99,24 +95,47 @@ DEVICE=br-ex
 DEVICETYPE=ovs
 TYPE=OVSBridge
 BOOTPROTO=static
-IPADDR=172.17.0.110
-NETMASK=255.255.255.0
-GATEWAY=172.17.0.1
+IPADDR=[External ip]
+NETMASK=[External netmask]
+GATEWAY=[External gw]
 DNS1=168.126.63.1
 ONBOOT=yes
 ```
-- Make ```/etc/sysconfig/network-scripts/ifcfg-eth0``` resemble (no BOOTPROTO!):
+
+- Make ```/etc/sysconfig/network-scripts/ifcfg-[external if]``` resemble (no BOOTPROTO!):
 ```
-DEVICE=eth0
+DEVICE=[external if]
 TYPE=OVSPort
 DEVICETYPE=ovs
 OVS_BRIDGE=br-ex
 ONBOOT=yes
 ```
 
-- Make ```/etc/sysconfig/network-scripts/ifcfg-eth1```
+- Make ```/etc/sysconfig/network-scripts/ifcfg-br-vpn``` resemble:
 ```
-DEVICE=eth1
+DEVICE=br-ex
+DEVICETYPE=ovs
+TYPE=OVSBridge
+BOOTPROTO=static
+IPADDR=[External ip]
+NETMASK=[External netmask]
+GATEWAY=[External gw]
+DNS1=168.126.63.1
+ONBOOT=yes
+```
+
+- Make ```/etc/sysconfig/network-scripts/ifcfg-[external vpn]``` resemble (no BOOTPROTO!):
+```
+DEVICE=[external if]
+TYPE=OVSPort
+DEVICETYPE=ovs
+OVS_BRIDGE=br-ex
+ONBOOT=yes
+```
+
+- Make ```/etc/sysconfig/network-scripts/ifcfg-[internal if]```
+```
+DEVICE=[internal if]
 BOOTPROTO=static
 IPADDR=10.0.0.110
 NETMASK=255.255.255.0
@@ -188,9 +207,9 @@ $ su -
   
   756 CONFIG_NEUTRON_ML2_TENANT_NETWORK_TYPES=vxlan
 
-  824 CONFIG_NEUTRON_OVS_BRIDGE_MAPPINGS=extnet:br-ex
+  824 CONFIG_NEUTRON_OVS_BRIDGE_MAPPINGS=extnet:br-ex,vpnnet:br-vpn
   
-  899 CONFIG_NEUTRON_OVN_TUNNEL_IF=eth1
+  899 CONFIG_NEUTRON_OVN_TUNNEL_IF=eno1
   
   1137 CONFIG_PROVISION_DEMO=n
 ```
