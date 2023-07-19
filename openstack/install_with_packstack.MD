@@ -60,9 +60,8 @@ LC_ALL=en_US.UTF-8
 
 ## Disable the selinux
 ```
-sudo setenforce 0
-sudo sed -i 's/=enforcing/=disabled/g' /etc/sysconfig/selinux  # or edit /etc/selinux/config to disabled
 sudo sed -i 's/=enforcing/=disabled/g' /etc/selinux/config
+sudo setenforce 0
 ```
 
 ## Install centos-release-openstack-zed
@@ -75,6 +74,7 @@ sudo dnf install -y openstack-packstack
 ```
 
 ## Install network-relevant things
+- Install ovs
 ```
 sudo dnf install network-scripts -y
 sudo dnf install -y openvswitch
