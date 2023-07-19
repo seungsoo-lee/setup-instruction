@@ -75,9 +75,21 @@ sudo sed -i 's/=enforcing/=disabled/g' /etc/selinux/config
 ## Install network-relevant things
 ```
 sudo dnf install network-scripts -y
-sudo dnf install -y openvswitch
 ```
-- Make network script files
+
+- Run the following network commands
+```
+sudo systemctl disable firewalld
+sudo systemctl stop firewalld
+sudo systemctl disable NetworkManager
+sudo systemctl stop NetworkManager
+sudo systemctl enable network
+sudo dnf install -y openvswitch
+sudo sysctl -w net.ipv4.ip_forward=1
+sudo echo 1 > /proc/sys/net/ipv4/ip_forward
+sudo vi /etc/sysctl.conf
+net.ipv4.ip_forward=1
+```
 
 - Make ```/etc/sysconfig/network-scripts/ifcfg-br-ex``` resemble:
 ```
@@ -109,18 +121,6 @@ NETMASK=255.255.255.0
 ONBOOT=yes
 ```
 
-- Run the following network commands
-```
-sudo systemctl disable firewalld
-sudo systemctl stop firewalld
-sudo systemctl disable NetworkManager
-sudo systemctl stop NetworkManager
-sudo systemctl enable network
-sudo sysctl -w net.ipv4.ip_forward=1
-sudo echo 1 > /proc/sys/net/ipv4/ip_forward
-sudo vi /etc/sysctl.conf
-net.ipv4.ip_forward=1
-```
 - Change ifname to ethX
 ```
 sudo vi /etc/default/grub
