@@ -53,10 +53,18 @@ baseurl=https://mirror.stream.centos.org/9-stream/CRB/$basearch/os/
 
 ## Make sure /etc/environment
 ```
-$ sudo vi /etc/environment
+vi /etc/environment
 LANG=en_US.UTF-8
 LC_ALL=en_US.UTF-8
 ```
+
+## Disable the selinux
+```
+sudo setenforce 0
+sudo sed -i 's/=enforcing/=disabled/g' /etc/sysconfig/selinux  # or edit /etc/selinux/config to disabled
+sudo sed -i 's/=enforcing/=disabled/g' /etc/selinux/config
+```
+
 ## Install centos-release-openstack-zed
 ```
 sudo dnf update -y
@@ -64,12 +72,6 @@ sudo dnf config-manager --enable crb
 sudo dnf install -y centos-release-openstack-zed
 sudo dnf update -y
 sudo dnf install -y openstack-packstack
-```
-## Disable the selinux
-```
-sudo setenforce 0
-sudo sed -i 's/=enforcing/=disabled/g' /etc/sysconfig/selinux  # or edit /etc/selinux/config to disabled
-sudo sed -i 's/=enforcing/=disabled/g' /etc/selinux/config
 ```
 
 ## Install network-relevant things
