@@ -159,16 +159,12 @@ vi /etc/udev/rules.d/70-persistent-ipoib.rules
 SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?", ATTR{address}=="bc:5f:f4:93:d6:ed", ATTR{type}=="1", KERNEL=="eth", NAME="eth0" SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?", ATTR{address}=="1c:fd:08:72:52:00", ATTR{type}=="1", KERNEL=="eth", NAME="eth0"
 ```
 
+- Change the hostname - controller, compute1, compute2, ...
 ```
-reboot
-```
-
-## Change the hostname - controller, compute1, compute2, ...
-```
-# hostnamectl set-hostname controller
+hostnamectl set-hostname controller
 ```
 
-## Enable ssh login without entering password (From now on, it should be executed on the controller node only)
+- Enable ssh login without entering password (From now on, it should be executed on the controller node only)
 
 - set ```/etc/hosts```
 ```
@@ -185,6 +181,11 @@ $ su -
 # ssh-copy-id root@compute1 [and ip]
 # ssh-copy-id root@compute2 [and ip]
 ```
+
+```
+reboot
+```
+
 - Generate packstack configuration file and edit it
 ```
 # packstack --gen-answer-file=packstack.cfg 
