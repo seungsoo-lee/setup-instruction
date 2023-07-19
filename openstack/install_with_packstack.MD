@@ -145,7 +145,7 @@ NETMASK=255.255.255.0
 ONBOOT=yes
 ```
 
-- Change ifname to ethX
+### Change ifname to ethX (if needed)
 ```
 sudo vi /etc/default/grub
 GRUB_CMDLINE_LINUX="crashkernel=auto resume=/dev/mapper/cl-swap rd.lvm.lv=cl/root rd.lvm.lv=cl/swap net.ifnames=0 rhgb quiet"
