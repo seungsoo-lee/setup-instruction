@@ -198,6 +198,11 @@ $ su -
 # reboot
 ```
 
+- Install Tmux 
+```
+# dnf install tmux -y
+```
+
 - Install OpenStack
 ```
 # packstack --answer-file=packstack.cfg
