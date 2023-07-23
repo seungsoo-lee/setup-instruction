@@ -136,16 +136,15 @@ DEVICE=br-vpn
 DEVICETYPE=ovs
 TYPE=OVSBridge
 BOOTPROTO=static
-IPADDR=[External ip]
-NETMASK=[External netmask]
-#GATEWAY=[External gw]
+IPADDR=[vpn ip]
+NETMASK=[vpn netmask]
+#GATEWAY=[vpn gw]
 #DNS1=168.126.63.1
 ONBOOT=yes
 ```
-
-- Make ```/etc/sysconfig/network-scripts/ifcfg-[external if]``` resemble (no BOOTPROTO!):
+- Make ```/etc/sysconfig/network-scripts/ifcfg-[vpn if]``` resemble (no BOOTPROTO!):
 ```
-DEVICE=[external if]
+DEVICE=[vpn if]
 TYPE=OVSPort
 DEVICETYPE=ovs
 OVS_BRIDGE=br-ex
