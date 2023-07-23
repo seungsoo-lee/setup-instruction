@@ -15,10 +15,10 @@
 <img src="./images/image2.png" width="70%" height="70%"></img>
 <img src="./images/image3.png" width="70%" height="70%"></img>
 ```
+/boot/efi 1 GiB
+swap      30 GiB
 /         100 GiB
-swap      16 GiB
-/boot/efi 100 MiB
-/var        (most) // openstack vm instacnes here
+/var      (most)             // openstack vm instacnes here
 ```
 
 ## Enable root login over SSH
