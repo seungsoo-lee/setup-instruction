@@ -147,7 +147,7 @@ ONBOOT=yes
 DEVICE=[vpn if]
 TYPE=OVSPort
 DEVICETYPE=ovs
-OVS_BRIDGE=br-ex
+OVS_BRIDGE=br-vpn
 ONBOOT=yes
 ```
 
