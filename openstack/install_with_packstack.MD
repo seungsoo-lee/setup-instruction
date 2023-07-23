@@ -23,19 +23,21 @@ swap      16 GiB
 
 ## Enable root login over SSH
 ```
-$ sudo vi /etc/ssh/sshd_config
-
+vi /etc/ssh/sshd_config
+...
 #LoginGraceTime 2m
 PermitRootLogin yes
 #StrictModes yes
+...
 
-$ sudo service sshd restart
+service sshd restart
 ```
 
 ## Modify centos repo
 
 ```
-$ sudo vi /etc/yum.repos.d/centos.repo  (comment out metalink, and add baseurl)
+vi /etc/yum.repos.d/centos.repo
+(comment out metalink, and add baseurl)
 
 [baseos]
 #metalink=https://mirrors.centos.org/metalink?repo=centos-baseos-$stream&arch=$basearch&protocol=https,http
@@ -60,41 +62,43 @@ LC_ALL=en_US.UTF-8
 
 ## Disable the selinux
 ```
-sudo sed -i 's/=enforcing/=disabled/g' /etc/selinux/config
-sudo setenforce 0
+sed -i 's/=enforcing/=disabled/g' /etc/selinux/config
+setenforce 0
 ```
 
 ## Install centos-release-openstack-zed
 ```
-sudo dnf update -y
-sudo dnf config-manager --enable crb
-sudo dnf install -y centos-release-openstack-zed
-sudo dnf update -y
-sudo dnf install -y openstack-packstack
+dnf update -y
+dnf config-manager --enable crb
+dnf install -y centos-release-openstack-zed
+dnf update -y
+dnf install -y openstack-packstack
 ```
 
 ## Install network-relevant things
 - Install ovs
 ```
-sudo dnf install network-scripts -y
-sudo dnf install -y openvswitch
+dnf install network-scripts -y
+dnf install -y openvswitch
 ```
 
 - Run the following commands
 ```
-sudo systemctl disable firewalld
-sudo systemctl stop firewalld
-sudo systemctl disable NetworkManager
-sudo systemctl stop NetworkManager
-sudo systemctl enable network
+systemctl disable firewalld
+systemctl stop firewalld
+systemctl disable NetworkManager
+systemctl stop NetworkManager
+systemctl enable network
 ```
 
 ## Change ifname to ethX (if needed)
 ```
-sudo vi /etc/default/grub
+vi /etc/default/grub
+...
 GRUB_CMDLINE_LINUX="crashkernel=auto resume=/dev/mapper/cl-swap rd.lvm.lv=cl/root rd.lvm.lv=cl/swap net.ifnames=0 rhgb quiet"
+...
 
-sudo grub2-mkconfig  -o /boot/grub2/grub.cfg
+grub2-mkconfig  -o /boot/grub2/grub.cfg
 ```
 
 * mapping interface to mac addr
@@ -169,7 +173,7 @@ hostnamectl set-hostname controller
 
 - set ```/etc/hosts```
 ```
-# vi /etc/hosts
+vi /etc/hosts
 172.17.0.113 controller
 172.17.0.114 compute
 172.17.0.115 network
@@ -177,11 +181,11 @@ hostnamectl set-hostname controller
 
 ## Enable ssh login without entering password (From now on, it should be executed on the controller node only)
 ```
-$ su -
-# ssh-keygen
-# ssh-copy-id root@controller [and ip]
-# ssh-copy-id root@compute1 [and ip]
-# ssh-copy-id root@compute2 [and ip]
+su -
+ssh-keygen
+ssh-copy-id root@controller [and ip]
+ssh-copy-id root@compute1 [and ip]
+ssh-copy-id root@compute2 [and ip]
 ```
 
 - Reboot system
@@ -191,7 +195,7 @@ reboot
 
 - Generate packstack configuration file and edit it
 ```
-# packstack --gen-answer-file=packstack.cfg 
+packstack --gen-answer-file=packstack.cfg 
 ```
 - Configure the answer file
 ```
@@ -230,16 +234,16 @@ reboot
 
 - Install Tmux 
 ```
-# dnf install tmux -y
+dnf install tmux -y
 ```
 
 - Install OpenStack
 ```
-# packstack --answer-file=packstack.cfg
+packstack --answer-file=packstack.cfg
 ```
 <img src="./images/image4.png" width="70%" height="70%"></img>
 
-# get cirros image
+get cirros image
 
 ```
 curl -L http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img | glance \
