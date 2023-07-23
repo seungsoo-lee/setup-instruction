@@ -89,6 +89,22 @@ sudo systemctl stop NetworkManager
 sudo systemctl enable network
 ```
 
+## Change ifname to ethX (if needed)
+```
+sudo vi /etc/default/grub
+GRUB_CMDLINE_LINUX="crashkernel=auto resume=/dev/mapper/cl-swap rd.lvm.lv=cl/root rd.lvm.lv=cl/swap net.ifnames=0 rhgb quiet"
+
+sudo grub2-mkconfig  -o /boot/grub2/grub.cfg
+```
+
+* mapping interface to mac addr
+```
+vi /etc/udev/rules.d/70-persistent-ipoib.rules
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?", ATTR{address}=="bc:5f:f4:93:d6:ed", ATTR{type}=="1", KERNEL=="eth", NAME="eth0" SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?", ATTR{address}=="1c:fd:08:72:52:00", ATTR{type}=="1", KERNEL=="eth", NAME="eth0"
+```
+
+## Make interface script files
+
 (External)
 - Make ```/etc/sysconfig/network-scripts/ifcfg-br-ex``` resemble:
 ```
@@ -145,21 +161,8 @@ NETMASK=255.255.255.0
 ONBOOT=yes
 ```
 
-### Change ifname to ethX (if needed)
-```
-sudo vi /etc/default/grub
-GRUB_CMDLINE_LINUX="crashkernel=auto resume=/dev/mapper/cl-swap rd.lvm.lv=cl/root rd.lvm.lv=cl/swap net.ifnames=0 rhgb quiet"
 
-sudo grub2-mkconfig  -o /boot/grub2/grub.cfg
-```
-
-* mapping interface to mac addr
-```
-vi /etc/udev/rules.d/70-persistent-ipoib.rules
-SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?", ATTR{address}=="bc:5f:f4:93:d6:ed", ATTR{type}=="1", KERNEL=="eth", NAME="eth0" SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?", ATTR{address}=="1c:fd:08:72:52:00", ATTR{type}=="1", KERNEL=="eth", NAME="eth0"
-```
-
-- Change the hostname - controller, compute1, compute2, ... (if needed)
+## Change the hostname - controller, compute1, compute2, ... (if needed)
 ```
 hostnamectl set-hostname controller
 ```
@@ -172,7 +175,7 @@ hostnamectl set-hostname controller
 172.17.0.115 network
 ```
 
-- Enable ssh login without entering password (From now on, it should be executed on the controller node only)
+## Enable ssh login without entering password (From now on, it should be executed on the controller node only)
 ```
 $ su -
 # ssh-keygen
