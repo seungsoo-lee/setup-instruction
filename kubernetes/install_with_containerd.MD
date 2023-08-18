@@ -75,8 +75,11 @@ $ sudo systemctl enable containerd
 ## Add apt repository for Kubernetes
 - Execute following commands to add apt repository for Kubernetes
 ```
-$ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-$ sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+$ sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://dl.k8s.io/apt/doc/apt-key.gpg
+$ sudo echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+##curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+##sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
 ```
 * Note: At time of writing this guide, Xenial is the latest Kubernetes repository but when repository is available for Ubuntu 22.04 (Jammy Jellyfish) then you need replace xenial word with ‘jammy’ in ‘apt-add-repository’ command.
 
