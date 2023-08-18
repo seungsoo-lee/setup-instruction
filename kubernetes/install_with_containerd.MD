@@ -81,20 +81,19 @@ $ sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
 * Note: At time of writing this guide, Xenial is the latest Kubernetes repository but when repository is available for Ubuntu 22.04 (Jammy Jellyfish) then you need replace xenial word with ‘jammy’ in ‘apt-add-repository’ command.
 
 ## Install Kubernetes components Kubectl, kubeadm & kubelet
+- Install specific version
+```
+$ sudo apt update
+$ apt-cache madison kubectl | grep 1.28
+   kubectl |  1.28.0-00 | http://apt.kubernetes.io kubernetes-xenial/main amd64 Packages
+   ...
+$ sudo apt install -y kubelet=1.28.0-00 kubeadm=1.28.0-00 kubectl=1.28.0-00
+```
 - Install Kubernetes components like kubectl, kubelet and Kubeadm utility on all the nodes. Run following set of commands,
 ```
 $ sudo apt update
 $ sudo apt install -y kubelet kubeadm kubectl
 $ sudo apt-mark hold kubelet kubeadm kubectl
-```
-- Install specific version
-```
-$ apt-cache madison kubectl | grep 1.25
-   kubectl |  1.25.9-00 | http://apt.kubernetes.io kubernetes-xenial/main amd64 Packages
-   kubectl |  1.25.8-00 | http://apt.kubernetes.io kubernetes-xenial/main amd64 Packages
-   kubectl |  1.25.7-00 | http://apt.kubernetes.io kubernetes-xenial/main amd64 Packages
-   ...
-$ sudo apt install -y kubelet=1.25.9-00 kubeadm=1.25.9-00 kubectl=1.25.9-00
 ```
 
 ## [Master Node] Initialize Kubernetes cluster with Kubeadm command
