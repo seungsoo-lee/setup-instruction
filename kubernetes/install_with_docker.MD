@@ -1,65 +1,70 @@
 # Kubernetes Installation on Ubuntu 22.04
 
-Get the detailed information about the installation from the below-mentioned websites of **Docker** and **Kubernetes**.
-
-[Docker](https://docs.docker.com/)
-
-[Kubernetes](https://kubernetes.io/)
-
-### Set up the Docker and Kubernetes repositories:
-
-> Download the GPG key for docker
-
+## SWAP-On 시 퍼포먼스 이슈가 있어 일반적으로 제거
 ```bash
-wget -O - https://download.docker.com/linux/ubuntu/gpg > ./docker.key
-
-gpg --no-default-keyring --keyring ./docker.gpg --import ./docker.key
-
-gpg --no-default-keyring --keyring ./docker.gpg --export > ./docker-archive-keyring.gpg
-
-sudo mv ./docker-archive-keyring.gpg /etc/apt/trusted.gpg.d/
+sudo swapoff /swap.img
+sudo sed -i -e '/swap.img/d' /etc/fstab
 ```
 
-> Add the docker repository
-
+## Install Docker and cri-docker
 ```bash
-# we can get the latest release versions from https://docs.docker.com
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo systemctl enable --now docker && sudo systemctl status docker --no-pager
+sudo usermod -aG docker worker
+sudo docker container ls
 
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+# cri-docker Install
+VER=$(curl -s https://api.github.com/repos/Mirantis/cri-dockerd/releases/latest|grep tag_name | cut -d '"' -f 4|sed 's/v//g')
+echo $VER
+wget https://github.com/Mirantis/cri-dockerd/releases/download/v${VER}/cri-dockerd-${VER}.amd64.tgz
+tar xvf cri-dockerd-${VER}.amd64.tgz
+sudo mv cri-dockerd/cri-dockerd /usr/local/bin/
 
+# cri-docker Version Check
+cri-dockerd --version
+
+wget https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.service
+wget https://raw.githubusercontent.com/Mirantis/cri-dockerd/master/packaging/systemd/cri-docker.socket
+sudo mv cri-docker.socket cri-docker.service /etc/systemd/system/
+sudo sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
+
+sudo systemctl daemon-reload
+sudo systemctl enable cri-docker.service
+sudo systemctl enable --now cri-docker.socket
+
+# cri-docker Active Check
+sudo systemctl restart docker && sudo systemctl restart cri-docker
+sudo systemctl status cri-docker.socket --no-pager 
+
+# Docker cgroup Change Require to Systemd
+sudo mkdir /etc/docker
+cat <<EOF | sudo tee /etc/docker/daemon.json
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+EOF
+
+sudo systemctl restart docker && sudo systemctl restart cri-docker
+sudo docker info | grep Cgroup
+
+# Kernel Forwarding 
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+br_netfilter
+EOF
+
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+
+sudo sysctl --system
 ```
-
-**To install cri-dockerd for Docker support**
-
-**Docker Engine does not implement the CRI which is a requirement for a container runtime to work with Kubernetes. For that reason, an additional service cri-dockerd has to be installed. cri-dockerd is a project based on the legacy built-in Docker Engine support that was removed from the kubelet in version 1.24.**
-
-> clone the repository
-
-```bash
-git clone https://github.com/Mirantis/cri-dockerd.git
-```
-
-> Login as root and run below commands
-
-```bash
-wget https://storage.googleapis.com/golang/getgo/installer_linux
-chmod +x ./installer_linux
-./installer_linux
-source ~/.bash_profile
-
-cd cri-dockerd
-mkdir bin
-go build -o bin/cri-dockerd
-mkdir -p /usr/local/bin
-install -o root -g root -m 0755 bin/cri-dockerd /usr/local/bin/cri-dockerd
-cp -a packaging/systemd/* /etc/systemd/system
-sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
-systemctl daemon-reload
-systemctl enable cri-docker.service
-systemctl enable --now cri-docker.socket
-
-```
-> Exit as root and run below commands as sudo user
 
 > Add the GPG key for kubernetes
 
