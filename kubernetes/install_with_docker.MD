@@ -92,28 +92,18 @@ sudo sysctl --system
 sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://dl.k8s.io/apt/doc/apt-key.gpg
 sudo echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
-sudo apt-get install -y docker-ce kubelet=1.27.3-00 kubeadm=1.27.3-00 kubectl=1.27.3-00
+apt-cache madison kubectl | grep 1.28
+kubectl |  1.28.0-00 | http://apt.kubernetes.io kubernetes-xenial/main amd64 Packages
+   ...
+
+sudo apt install -y kubelet=1.28.0-00 kubeadm=1.28.0-00 kubectl=1.28.0-00
 sudo apt-mark hold docker-ce kubelet kubeadm kubectl
 ```
 
 ### On the Kube master server
 
-> Initialize the cluster by passing the cidr value and the value will depend on the type of network CLI you choose.
-
-**Calico**
-
 ```bash
-# Calico network
-# Make sure to copy the join command
-sudo kubeadm init --apiserver-advertise-address=<control_plane_ip> --cri-socket unix:///var/run/cri-dockerd.sock  --pod-network-cidr=192.168.0.0/16
-
-# Use below command if the node network is 192.168.x.x
-sudo kubeadm init --apiserver-advertise-address=<control_plane_ip> --cri-socket unix:///var/run/cri-dockerd.sock  --pod-network-cidr=10.244.0.0/16
-
-# Copy your join command and keep it safe.
-# Below is a sample format
-# Add --cri-socket /var/run/cri-dockerd.sock to the command
-kubeadm join <control_plane_ip>:6443 --token 31rvbl.znk703hbelja7qbx --cri-socket unix:///var/run/cri-dockerd.sock --discovery-token-ca-cert-hash sha256:3dd5f401d1c86be4axxxxxxxxxx61ce965f5xxxxxxxxxxf16cb29a89b96c97dd
+sudo kubeadm init --control-plane-endpoint=master --pod-network-cidr=192.168.0.0/16
 ```
 
 > To start using the cluster with current user.
@@ -122,19 +112,6 @@ kubeadm join <control_plane_ip>:6443 --token 31rvbl.znk703hbelja7qbx --cri-socke
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
-```
-
-> To set up the Calico network
-
-```bash
-# Use this if you have initialised the cluster with Calico network add on.
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/tigera-operator.yaml
-
-curl https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/custom-resources.yaml -O
-
-# Change the ip to 10.244.0.0/16 if the node network is 192.168.x.x
-kubectl create -f custom-resources.yaml
-
 ```
 
 > Check the nodes
@@ -152,7 +129,6 @@ kubectl get nodes
 sudo kubeadm join $controller_private_ip:6443 --token $token --discovery-token-ca-cert-hash $hash
 #Ex:
 # kubeadm join <control_plane_ip>:6443 --cri-socket unix:///var/run/cri-dockerd.sock --token 31rvbl.znk703hbelja7qbx --discovery-token-ca-cert-hash sha256:3dd5f401d1c86be4axxxxxxxxxx61ce965f5xxxxxxxxxxf16cb29a89b96c97dd
-
 ```
 
 **TIP**
