@@ -1,5 +1,25 @@
 # Kubernetes Installation on Ubuntu 22.04
 
+### Set hostname and add entries in the hosts file
+
+- On the master node, run
+```sh
+$ sudo hostnamectl set-hostname "master"
+$ bash
+```
+- On the worker nodes, run
+```
+$ sudo hostnamectl set-hostname "worker1"   // 1st worker node
+$ sudo hostnamectl set-hostname "worker2"   // 2nd worker node
+$ bash
+```
+- Add the following entries in ```/etc/hosts``` file on each node
+```
+192.168.1.173   master
+192.168.1.174   worker1
+192.168.1.175   worker2
+```
+
 ### SWAP-OFF
 ```bash
 sudo swapoff /swap.img
