@@ -1,6 +1,6 @@
 # Kubernetes Installation on Ubuntu 22.04
 
-## SWAP-On 시 퍼포먼스 이슈가 있어 일반적으로 제거
+## SWAP-OFF
 ```bash
 sudo swapoff /swap.img
 sudo sed -i -e '/swap.img/d' /etc/fstab
@@ -53,7 +53,7 @@ EOF
 sudo systemctl restart docker && sudo systemctl restart cri-docker
 sudo docker info | grep Cgroup
 
-# Kernel Forwarding 
+# Kernel Forwarding
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
 br_netfilter
 EOF
@@ -66,63 +66,14 @@ EOF
 sudo sysctl --system
 ```
 
-> Add the GPG key for kubernetes
+### Install Kubernetes
 
 ```bash
 sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://dl.k8s.io/apt/doc/apt-key.gpg
-```
-
-> Add the kubernetes repository
-
-**Check for the latest release in https://packages.cloud.google.com/apt/dists**
-
-```bash
 sudo echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-```
-
-> Update the repository
-
-```bash
-# Update the repositiries
 sudo apt-get update
-```
-
-> Install Docker and Kubernetes packages.
-
-**Note that if you want to use a newer version of Kubernetes, change the version installed for kubelet, kubeadm, and kubectl and be sure that all three use the same version.
-These version should support the Docker CE version.**
-
-```bash
-# Use the same versions to avoid issues with the installation.
 sudo apt-get install -y docker-ce kubelet=1.27.3-00 kubeadm=1.27.3-00 kubectl=1.27.3-00
-```
-
-> To hold the versions so that the versions will not get accidently upgraded.
-
-```bash
 sudo apt-mark hold docker-ce kubelet kubeadm kubectl
-```
-
-> Enable the iptables bridge
-
-```bash
-cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
-overlay
-br_netfilter
-EOF
-
-sudo modprobe overlay
-sudo modprobe br_netfilter
-
-# sysctl params required by setup, params persist across reboots
-cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
-net.bridge.bridge-nf-call-iptables  = 1
-net.bridge.bridge-nf-call-ip6tables = 1
-net.ipv4.ip_forward                 = 1
-EOF
-
-# Apply sysctl params without reboot
-sudo sysctl --system
 ```
 
 ### On the Kube master server
