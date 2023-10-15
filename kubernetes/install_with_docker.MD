@@ -152,3 +152,6 @@ kubectl apply -f metrics-server.yaml
 cd
 rm -rf kubernetes_installation_docker/
 ```
+
+
+- ref https://tech.hostway.co.kr/2022/08/30/1374/
