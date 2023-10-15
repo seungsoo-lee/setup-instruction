@@ -1,12 +1,12 @@
 # Kubernetes Installation on Ubuntu 22.04
 
-## SWAP-OFF
+### SWAP-OFF
 ```bash
 sudo swapoff /swap.img
 sudo sed -i -e '/swap.img/d' /etc/fstab
 ```
 
-## Install Docker and cri-docker
+### Install Docker and cri-docker
 ```bash
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
