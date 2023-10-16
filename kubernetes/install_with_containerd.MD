@@ -25,27 +25,22 @@ $ bash
 ```
 $ sudo swapoff -a
 $ sudo sed -i '/swap.img/s/^/#/' /etc/fstab # (Ubuntu 22.04)
-```
-- Load the following kernel modules on all the nodes,
-```
-$ sudo tee /etc/modules-load.d/containerd.conf <<EOF
-overlay
+```bash
+# swapp off
+sudo swapoff -a
+sudo sed -i '/swap.img/s/^/#/' /etc/fstab # (Ubuntu 22.04)
+
+# Kernel Forwarding
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
 br_netfilter
 EOF
-$ sudo modprobe overlay
-$ sudo modprobe br_netfilter
-```
-- Set the following Kernel parameters for Kubernetes, run beneath tee command
-```
-$ sudo tee /etc/sysctl.d/kubernetes.conf <<EOF
+
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
-net.ipv4.ip_forward = 1
 EOF
-```
-- Reload the above changes, run
-```
-$ sudo sysctl --system
+
+sudo sysctl --system
 ```
 
 ## Install containerd run time
