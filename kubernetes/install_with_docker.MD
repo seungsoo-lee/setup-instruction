@@ -107,7 +107,7 @@ sudo apt-mark hold docker-ce kubelet kubeadm kubectl
 sudo kubeadm init --control-plane-endpoint=master-calico --pod-network-cidr=192.168.0.0/16 --cri-socket unix:///var/run/cri-dockerd.sock
 ```
 
-> To start using the cluster with current user.
+- To start using the cluster with current user.
 
 ```bash
 mkdir -p $HOME/.kube
@@ -115,7 +115,7 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-> Check the nodes
+- Check the nodes
 
 ```bash
 # Check the status on the master node.
@@ -124,12 +124,11 @@ kubectl get nodes
 
 ## On each of Kube node server
 
-> Joining the node to the cluster:
+- Joining the node to the cluster:
 
 ```bash
-sudo kubeadm join $controller_private_ip:6443 --token $token --discovery-token-ca-cert-hash $hash
-#Ex:
-# kubeadm join <control_plane_ip>:6443 --cri-socket unix:///var/run/cri-dockerd.sock --token 31rvbl.znk703hbelja7qbx --discovery-token-ca-cert-hash sha256:3dd5f401d1c86be4axxxxxxxxxx61ce965f5xxxxxxxxxxf16cb29a89b96c97dd
+sudo kubeadm join master-calico:6443 --token meihcd.jgmr3obc83qcixlq \
+        --discovery-token-ca-cert-hash sha256:047089fa517343ecb9275dfa99b82a7c13377718ee1e0859804aeb48986fc1a3 --cri-socket unix:///var/run/cri-dockerd.sock
 ```
 
 **TIP**
