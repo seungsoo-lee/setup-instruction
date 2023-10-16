@@ -4,14 +4,14 @@
 
 - On the master node, run
 ```sh
-$ sudo hostnamectl set-hostname "master"
-$ bash
+sudo hostnamectl set-hostname "master"
+bash
 ```
 - On the worker nodes, run
 ```
-$ sudo hostnamectl set-hostname "worker1"   // 1st worker node
-$ sudo hostnamectl set-hostname "worker2"   // 2nd worker node
-$ bash
+sudo hostnamectl set-hostname "worker1"   // 1st worker node
+sudo hostnamectl set-hostname "worker2"   // 2nd worker node
+bash
 ```
 - Add the following entries in ```/etc/hosts``` file on each node
 ```
@@ -21,10 +21,6 @@ $ bash
 ```
 
 ## Disable swap & add kernel settings
-- Execute beneath swapoff and sed command to disable swap. Make sure to run the following commands on all the nodes.
-```
-$ sudo swapoff -a
-$ sudo sed -i '/swap.img/s/^/#/' /etc/fstab # (Ubuntu 22.04)
 ```bash
 # swapp off
 sudo swapoff -a
