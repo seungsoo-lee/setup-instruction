@@ -20,10 +20,23 @@ $ bash
 192.168.1.175   worker2
 ```
 
-## SWAP-OFF
+## Disable swap & add kernel settings
 ```bash
-sudo swapoff /swap.img
-sudo sed -i -e '/swap.img/d' /etc/fstab
+# swapp off
+sudo swapoff -a
+sudo sed -i '/swap.img/s/^/#/' /etc/fstab # (Ubuntu 22.04)
+
+# Kernel Forwarding
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+br_netfilter
+EOF
+
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+
+sudo sysctl --system
 ```
 
 ## Install Docker and cri-docker
@@ -72,18 +85,6 @@ EOF
 
 sudo systemctl restart docker && sudo systemctl restart cri-docker
 sudo docker info | grep Cgroup
-
-# Kernel Forwarding
-cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
-br_netfilter
-EOF
-
-cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
-net.bridge.bridge-nf-call-ip6tables = 1
-net.bridge.bridge-nf-call-iptables = 1
-EOF
-
-sudo sysctl --system
 ```
 
 ## Install Kubernetes
