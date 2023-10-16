@@ -1,6 +1,6 @@
-# Kubernetes Installation on Ubuntu 22.04
+# Kubernetes Installation with Docker on Ubuntu 22.04
 
-### Set hostname and add entries in the hosts file
+## Set hostname and add entries in the hosts file
 
 - On the master node, run
 ```sh
@@ -20,13 +20,13 @@ $ bash
 192.168.1.175   worker2
 ```
 
-### SWAP-OFF
+## SWAP-OFF
 ```bash
 sudo swapoff /swap.img
 sudo sed -i -e '/swap.img/d' /etc/fstab
 ```
 
-### Install Docker and cri-docker
+## Install Docker and cri-docker
 ```bash
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
@@ -86,7 +86,7 @@ EOF
 sudo sysctl --system
 ```
 
-### Install Kubernetes
+## Install Kubernetes
 
 ```bash
 sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://dl.k8s.io/apt/doc/apt-key.gpg
@@ -100,7 +100,7 @@ sudo apt install -y kubelet=1.28.0-00 kubeadm=1.28.0-00 kubectl=1.28.0-00
 sudo apt-mark hold docker-ce kubelet kubeadm kubectl
 ```
 
-### On the Kube master server
+## On the Kube master server
 
 ```bash
 sudo kubeadm init --control-plane-endpoint=master --pod-network-cidr=192.168.0.0/16
@@ -121,7 +121,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubectl get nodes
 ```
 
-### On each of Kube node server
+## On each of Kube node server
 
 > Joining the node to the cluster:
 
@@ -139,7 +139,7 @@ sudo kubeadm join $controller_private_ip:6443 --token $token --discovery-token-c
 kubeadm token create --print-join-command
 ```
 
-### To install metrics server
+## To install metrics server
 
 ```bash
 git clone https://github.com/mialeevs/kubernetes_installation_docker.git
