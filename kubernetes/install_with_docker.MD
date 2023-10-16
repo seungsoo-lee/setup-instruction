@@ -104,7 +104,7 @@ sudo apt-mark hold docker-ce kubelet kubeadm kubectl
 ## On the Kube master server
 
 ```bash
-sudo kubeadm init --control-plane-endpoint=master --pod-network-cidr=192.168.0.0/16
+sudo kubeadm init --control-plane-endpoint=master-calico --pod-network-cidr=192.168.0.0/16 --cri-socket unix:///var/run/cri-dockerd.sock
 ```
 
 > To start using the cluster with current user.
