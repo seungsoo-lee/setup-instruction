@@ -97,7 +97,7 @@ apt-cache madison kubectl | grep 1.28
 kubectl |  1.28.0-00 | http://apt.kubernetes.io kubernetes-xenial/main amd64 Packages
    ...
 
-sudo apt install -y kubelet=1.28.0-00 kubeadm=1.28.0-00 kubectl=1.28.0-00
+sudo apt install -y kubelet=1.28.2-00 kubeadm=1.28.2-00 kubectl=1.28.2-00
 sudo apt-mark hold docker-ce kubelet kubeadm kubectl
 ```
 
