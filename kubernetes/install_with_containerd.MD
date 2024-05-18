@@ -120,6 +120,14 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubectl cluster-info
 kubectl get nodes
 ```
+
+- Enable master node to run pods
+```
+$ kubectl describe node master | grep Taints
+Taints:             node-role.kubernetes.io/control-plane:NoSchedule
+$ kubectl taint nodes master node-role.kubernetes.io/control-plane-
+```
+
 ## [Worker Node] Join to the cluster
 - Join both the worker nodes to the cluster, command is already there is output, just copy paste on the worker nodes,
 ```
