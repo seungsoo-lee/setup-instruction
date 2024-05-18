@@ -1,5 +1,7 @@
 # Kubernetes Installation with ContainerD on Ubuntu 22.04
 
+- ref: https://medium.com/@priyantha.getc/step-by-step-guide-to-creating-a-kubernetes-cluster-on-ubuntu-22-04-using-containerd-runtime-0ead53a8d273
+
 ## Set hostname and add entries in the hosts file
 
 - On the master node, run
